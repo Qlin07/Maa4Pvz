@@ -1,0 +1,33 @@
+{
+    "Homepage": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": ["BackpackBtn", "GalaxyBtn", "PlantsBtn"]
+    },
+    "BackpackBtn": {
+        "algorithm": "MatchTemplate",
+        "template": "homepage/btn_backpack.png",
+        "templThreshold": 0.4,
+        "action": "DoNothing",
+        "next": ["Stop"]
+    },
+    "GalaxyBtn": {
+        "algorithm": "MatchTemplate",
+        "template": "homepage/btn_galaxy.png",
+        "templThreshold": 0.4,
+        "action": "DoNothing",
+        "next": ["Stop"]
+    },
+    "PlantsBtn": {
+        "algorithm": "MatchTemplate",
+        "template": "homepage/btn_Plants.png",
+        "templThreshold": 0.4,
+        "action": "DoNothing",
+        "next": ["Stop"]
+    },
+    "Stop": {
+        "algorithm": "JustReturn",
+        "action": "Stop",
+        "next": []
+    }
+}

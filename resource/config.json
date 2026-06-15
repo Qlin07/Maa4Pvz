@@ -1,0 +1,62 @@
+{
+    "version": "0.0.1",
+    "options": {
+        "taskDelay": 0,
+        "SSSFightScreencapInterval": 1000,
+        "RoguelikeFightScreencapInterval": 1000,
+        "CopilotFightScreencapInterval": 1000,
+        "controlDelayRange": [0, 0],
+        "adbExtraSwipeDist": 200,
+        "adbExtraSwipeDuration": 100,
+        "adbSwipeDurationMultiplier": 10.0,
+        "adbSwipeXDistanceMultiplier": 0.8,
+        "minitouchExtraSwipeDist": 200,
+        "minitouchExtraSwipeDuration": 100,
+        "minitouchSwipeDefaultDuration": 200,
+        "minitouchSwipeExtraEndDelay": 100,
+        "swipeWithPauseRequiredDistance": 20,
+        "minitouchProgramsOrder": [
+            "x86_64", "x86", "arm64-v8a", "armeabi-v7a", "armeabi"
+        ],
+        "debug": {
+            "cleanFilesFreq": 50,
+            "maxDebugFileNum": 100
+        }
+    },
+    "packageName": {
+        "Official": "com.hypergryph.arknights"
+    },
+    "connection": [
+        {
+            "configName": "General",
+            "baseConfig": "",
+            "devices": "[Adb] devices",
+            "addressRegex": ".*",
+            "connect": "[Adb] connect [AdbSerial]",
+            "display": "[Adb] -s [AdbSerial] shell \"wm size | head -1 | tr -s ' ' | cut -d' ' -f3 | tr 'x' ' '\"",
+            "displayId": "",
+            "displayFormat": "%d%d",
+            "uuid": "[Adb] -s [AdbSerial] shell settings get secure android_id",
+            "click": "[Adb] -s [AdbSerial] shell input tap [x] [y]",
+            "input": "[Adb] -s [AdbSerial] shell input text [text]",
+            "swipe": "[Adb] -s [AdbSerial] shell input swipe [x1] [y1] [x2] [y2] [duration]",
+            "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
+            "ncAddress": "[Adb] -s [AdbSerial] shell \"cat /proc/net/arp | grep :\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
+            "release": "[Adb] kill-server",
+            "start": "[Adb] -s [AdbSerial] shell am start -n [PackageName]/com.u8.sdk.U8UnityContext",
+            "stop": "[Adb] -s [AdbSerial] shell am force-stop [PackageName]",
+            "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
+            "version": "[Adb] -s [AdbSerial] shell getprop ro.build.version.release",
+            "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]\"",
+            "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
+            "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i",
+            "callMaatouch": "[Adb] -s [AdbSerial] shell \"export CLASSPATH=/data/local/tmp/[minitouchWorkingFile]; app_process /data/local/tmp com.shxyke.MaaTouch.App\"",
+            "back_to_home": "[Adb] -s [AdbSerial] shell input keyevent HOME",
+            "eventId": "[Adb] -s [AdbSerial] shell getevent -p | grep -B 100 ABS_MT_POSITION_X | grep -m 1 -o -E event[0-9]*"
+        }
+    ]
+}
