@@ -84,6 +84,9 @@ extern "C"
     AsstBool ASSTAPI AsstConnected(AsstHandle handle);
     AsstBool ASSTAPI AsstBackToHome(AsstHandle handle);
 
+    // 扫描 resource/tasks/ 返回可用纯 JSON 任务列表（JSON 数组字符串）
+    ASSTAPI_PORT const char* ASST_CALL AsstGetJsonTaskList();
+
     /* Async with AsstMsg::AsyncCallInfo Callback*/
     AsstAsyncCallId ASSTAPI AsstAsyncConnect(
         AsstHandle handle,

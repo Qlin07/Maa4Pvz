@@ -119,6 +119,9 @@ public:
 
     virtual bool back_to_home() const override;
 
+    // 扫描 resource/tasks/ 下所有带 @EntryPoint 的纯 JSON 任务
+    static std::string get_json_task_list();
+
 public:
     std::shared_ptr<Controller> ctrler() const { return m_ctrler; }
 

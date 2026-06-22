@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,15 +75,39 @@ public class TaskQueueViewModel : Screen
 
     private void InitTaskList()
     {
-        // 当前只有一个任务：戴夫杯
-        // 后续每新增一个 InterfaceTask，在这里加一行
         var savedOrder = _config.GetValue(ConfigurationKeys.TaskOrder);
         var savedEnabled = _config.GetValue(ConfigurationKeys.TaskEnabled, "");
 
-        var allTasks = new List<TaskItemViewModel>
+        var allTasks = new List<TaskItemViewModel>();
+
+        // === C++ 驱动任务（硬编码） ===
+        allTasks.Add(new TaskItemViewModel("戴夫杯", "FtCrickets"));
+
+        // === 纯 JSON 任务（自动扫描） ===
+        var tasksDir = Path.Combine(AppContext.BaseDirectory, "resource", "tasks");
+        if (Directory.Exists(tasksDir))
         {
-            new("戴夫杯", "FtCrickets"),
-        };
+            foreach (var file in Directory.GetFiles(tasksDir, "*.json"))
+            {
+                try
+                {
+                    var json = JObject.Parse(File.ReadAllText(file));
+                    foreach (var prop in json.Properties())
+                    {
+                        var key = prop.Name;
+                        if (!key.EndsWith("@EntryPoint")) continue;
+                        if (prop.Value["algorithm"] == null) continue;
+
+                        var taskName = key.Substring(0, key.Length - "@EntryPoint".Length);
+                        var doc = prop.Value["doc"]?.ToString() ?? taskName;
+
+                        allTasks.Add(new TaskItemViewModel(doc, taskName));
+                        break; // 每个文件只取第一个 EntryPoint
+                    }
+                }
+                catch { }
+            }
+        }
 
         if (!string.IsNullOrEmpty(savedOrder))
         {

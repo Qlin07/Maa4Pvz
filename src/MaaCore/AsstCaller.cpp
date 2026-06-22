@@ -317,6 +317,18 @@ AsstSize AsstGetNullSize()
     return NullSize;
 }
 
+const char* AsstGetJsonTaskList()
+{
+    static std::string cached;
+    try {
+        cached = asst::Assistant::get_json_task_list();
+    }
+    catch (...) {
+        cached = "[]";
+    }
+    return cached.c_str();
+}
+
 const char* AsstGetVersion()
 {
     return MAA_VERSION;

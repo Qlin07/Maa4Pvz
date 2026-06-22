@@ -191,6 +191,22 @@ public class AsstProxy
 
     public bool Running => _handle != IntPtr.Zero && MaaService.AsstRunning(_handle);
 
+    /// <summary>
+    /// 扫描 resource/tasks/ 下所有带 @EntryPoint 的纯 JSON 任务
+    /// </summary>
+    public static string GetJsonTaskList()
+    {
+        try
+        {
+            var ptr = MaaService.AsstGetJsonTaskList();
+            return ptr != IntPtr.Zero ? Marshal.PtrToStringAnsi(ptr) ?? "[]" : "[]";
+        }
+        catch
+        {
+            return "[]";
+        }
+    }
+
     public void Dispose()
     {
         if (_handle != IntPtr.Zero)

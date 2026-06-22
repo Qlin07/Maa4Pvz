@@ -13,6 +13,7 @@
 #include "Task/Interface/HomepageTask.h"
 #include "Task/Interface/OpenActivityTask.h"
 #include "Task/Interface/FtCricketsTask.h"
+#include "Task/Interface/GenericJsonTask.h"
 #include "Task/InterfaceTask.h"
 #include "Utils/Logger.hpp"
 
@@ -240,17 +241,18 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     std::shared_ptr<InterfaceTask> ptr = nullptr;
 
-    // No game-specific tasks registered yet. Add your tasks here:
+    // C++ 驱动任务注册
     if (type == HomepageTask::TaskType) {
         ptr = std::make_shared<HomepageTask>(append_callback_for_inst, this); }
     else if (type == OpenActivityTask::TaskType) {
         ptr = std::make_shared<OpenActivityTask>(append_callback_for_inst, this); }
     else if (type == FtCricketsTask::TaskType) {
         ptr = std::make_shared<FtCricketsTask>(append_callback_for_inst, this); }
-
-    if (!ptr) {
-        Log.error(__FUNCTION__, "| invalid type:", type);
-        return 0;
+    // 纯 JSON 任务回退：未注册的 type 自动尝试加载 {type}@EntryPoint
+    else {
+        ptr = std::make_shared<GenericJsonTask>(
+            append_callback_for_inst, this,
+            std::string(type) + "@EntryPoint");
     }
 
     auto& json = ret.value();
@@ -707,4 +709,40 @@ bool asst::Assistant::inited() const noexcept
 bool asst::Assistant::back_to_home() const
 {
     return m_ctrler->back_to_home();
+}
+
+std::string Assistant::get_json_task_list()
+{
+    using namespace asst::utils::path_literals;
+    const auto tasks_dir = ResDir.get() / "tasks"_p;
+
+    json::array result;
+
+    if (!std::filesystem::is_directory(tasks_dir)) {
+        return json::array().dump();
+    }
+
+    for (const auto& entry : std::filesystem::directory_iterator(tasks_dir)) {
+        if (!entry.is_regular_file() || entry.path().extension() != ".json") continue;
+
+        auto opt = json::open(entry.path(), true);
+        if (!opt) continue;
+
+        auto& root = *opt;
+        // 扫描所有包含 @EntryPoint 的键
+        for (const auto& [key, value] : root.as_object()) {
+            if (!key.ends_with("@EntryPoint")) continue;
+            if (!value.is_object() || !value.as_object().contains("algorithm")) continue;
+
+            result.emplace_back(json::object {
+                { "name", std::string(key.begin(), key.end() - std::string_view("@EntryPoint").size()) },
+                { "chain", key },
+                { "doc", value.as_object().get("doc", "") },
+            });
+            // 每个文件只取第一个 EntryPoint
+            break;
+        }
+    }
+
+    return result.dump();
 }

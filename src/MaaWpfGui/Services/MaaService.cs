@@ -53,6 +53,9 @@ internal static partial class MaaService
     [LibraryImport("MaaCore.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool AsstStop(AsstHandle handle);
+
+    [LibraryImport("MaaCore.dll")]
+    internal static partial nint AsstGetJsonTaskList();
 }
 
 public enum AsstMsg : int
