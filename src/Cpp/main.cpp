@@ -38,7 +38,7 @@ int main(int argc, char** argv)
     }
     std::cout << "=== Connected! ===" << std::endl;
 
-    AsstAppendTask(ptr, "Homepage", nullptr);
+    AsstAppendTask(ptr, "FtCrickets", nullptr);
     AsstStart(ptr);
     while (AsstRunning(ptr)) {
         std::this_thread::yield();

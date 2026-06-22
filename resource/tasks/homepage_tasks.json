@@ -2,12 +2,36 @@
     "Homepage": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "next": ["BackpackBtn", "GalaxyBtn", "PlantsBtn"]
+        "next": ["BackpackBtn"]
     },
     "BackpackBtn": {
         "algorithm": "MatchTemplate",
         "template": "homepage/btn_backpack.png",
-        "templThreshold": 0.4,
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 1500,
+        "next": ["BackpackPropsBtn", "BackpackBtn"]
+    },
+    "BackpackPropsBtn": {
+        "algorithm": "MatchTemplate",
+        "template": "backpack/btn_props.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["BtnBack", "BackpackPropsBtn"]
+    },
+    "BtnBack": {
+        "algorithm": "MatchTemplate",
+        "template": "common/btn_back.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["HomepageCheck", "BtnBack"]
+    },
+    "HomepageCheck": {
+        "algorithm": "MatchTemplate",
+        "template": "homepage/btn_backpack.png",
+        "templThreshold": 0.8,
         "action": "DoNothing",
         "next": ["Stop"]
     },

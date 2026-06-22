@@ -1,0 +1,62 @@
+{
+    "FtCrickets@SelectDaveCup": {
+        "doc": "选择戴夫杯",
+        "algorithm": "MatchTemplate",
+        "template": "ft_crickets/btn_dav_cup.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 1500,
+        "next": ["FtCrickets@GoNow"]
+    },
+    "FtCrickets@GoNow": {
+        "doc": "点击立即前往",
+        "algorithm": "MatchTemplate",
+        "template": "ft_crickets/btn_go_now.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "next": ["FtCrickets@Match"]
+    },
+    "FtCrickets@Match": {
+        "doc": "点击匹配",
+        "algorithm": "MatchTemplate",
+        "template": "ft_crickets/btn_match.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 3000,
+        "next": ["FtCrickets@WaitMatch", "FtCrickets@Match"]
+    },
+    "FtCrickets@WaitMatch": {
+        "doc": "等待匹配完成（长时间加载），直到出现支持左侧或返回",
+        "algorithm": "JustReturn",
+        "postDelay": 3000,
+        "maxTimes": 500,
+        "next": ["FtCrickets@Return", "FtCrickets@SupportLeft", "#self"]
+    },
+    "FtCrickets@CheckForReturn": {
+        "doc": "检查是否出现返回（优先）还是支持左侧",
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "maxTimes": 500,
+        "next": ["FtCrickets@Return", "FtCrickets@SupportLeft"]
+    },
+    "FtCrickets@SupportLeft": {
+        "doc": "点击支持左侧",
+        "algorithm": "MatchTemplate",
+        "template": "ft_crickets/btn_support_left.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "maxTimes": 500,
+        "next": ["FtCrickets@CheckForReturn"]
+    },
+    "FtCrickets@Return": {
+        "doc": "出现返回，点击返回（活动专用返回按钮）",
+        "algorithm": "MatchTemplate",
+        "template": "ft_crickets/btn_activity_return.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "next": ["FtCrickets@Match"]
+    }
+}

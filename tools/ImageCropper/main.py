@@ -18,7 +18,7 @@ adb_screencap_method = MaaAdbScreencapMethodEnum.Default
 
 # PC 端窗口截图参数 (Win32 / WGC)
 # window_name 为目标窗口标题关键字(子串匹配)
-window_name = "明日方舟"
+window_name = "植物大战僵尸"
 # Background = FramePool(WGC) | PrintWindow:优先 WGC,失败自动退回 PrintWindow
 win32_screencap_method = MaaWin32ScreencapMethodEnum.Background
 

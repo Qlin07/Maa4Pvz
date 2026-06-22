@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace MaaWpfGui.Views.UI;
 
-public partial class SettingsView : UserControl
+public partial class TaskQueueView : UserControl
 {
-    public SettingsView()
+    public TaskQueueView()
     {
         InitializeComponent();
     }

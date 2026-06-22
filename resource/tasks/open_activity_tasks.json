@@ -1,0 +1,37 @@
+{
+    "OpenActivity@Homepage": {
+        "doc": "从主页出发",
+        "algorithm": "MatchTemplate",
+        "template": "homepage/btn_backpack.png",
+        "templThreshold": 0.8,
+        "action": "DoNothing",
+        "next": ["OpenActivity@DailyBtnWithAlert", "OpenActivity@DailyBtn"]
+    },
+    "OpenActivity@DailyBtnWithAlert": {
+        "doc": "日常按钮（带感叹号）",
+        "algorithm": "MatchTemplate",
+        "template": "homepage/btn_daily_alert.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 1500,
+        "next": ["OpenActivity@ActivityBtnWithAlert"]
+    },
+    "OpenActivity@DailyBtn": {
+        "doc": "日常按钮（不带感叹号）",
+        "algorithm": "MatchTemplate",
+        "template": "homepage/btn_daily.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 1500,
+        "next": ["OpenActivity@ActivityBtnWithAlert"]
+    },
+    "OpenActivity@ActivityBtnWithAlert": {
+        "doc": "活动合集",
+        "algorithm": "MatchTemplate",
+        "template": "activity/btn_activity_alert.png",
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "next": ["Stop"]
+    }
+}

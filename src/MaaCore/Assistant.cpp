@@ -11,6 +11,8 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/Interface/HomepageTask.h"
+#include "Task/Interface/OpenActivityTask.h"
+#include "Task/Interface/FtCricketsTask.h"
 #include "Task/InterfaceTask.h"
 #include "Utils/Logger.hpp"
 
@@ -241,6 +243,10 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     // No game-specific tasks registered yet. Add your tasks here:
     if (type == HomepageTask::TaskType) {
         ptr = std::make_shared<HomepageTask>(append_callback_for_inst, this); }
+    else if (type == OpenActivityTask::TaskType) {
+        ptr = std::make_shared<OpenActivityTask>(append_callback_for_inst, this); }
+    else if (type == FtCricketsTask::TaskType) {
+        ptr = std::make_shared<FtCricketsTask>(append_callback_for_inst, this); }
 
     if (!ptr) {
         Log.error(__FUNCTION__, "| invalid type:", type);

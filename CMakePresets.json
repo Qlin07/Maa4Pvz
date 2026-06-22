@@ -1,8 +1,8 @@
 {
-    "version": 9,
+    "version": 6,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 23,
+        "minor": 25,
         "patch": 0
     },
     "configurePresets": [
@@ -11,10 +11,6 @@
             "hidden": true,
             "generator": "Visual Studio 18 2026",
             "binaryDir": "${sourceDir}/build",
-            "$comment": [
-                "Base for Windows presets; Visual Studio is multi-config (Debug/Release/RelWithDebInfo in same build dir)",
-                "see https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2018%202026.html"
-            ],
             "cacheVariables": {
                 "BUILD_WPF_GUI": "ON",
                 "BUILD_DEBUG_DEMO": "ON",
@@ -33,11 +29,6 @@
             "hidden": true,
             "generator": "Ninja Multi-Config",
             "binaryDir": "${sourceDir}/build",
-            "$comment": [
-                "NOT for building — only for generating compile_commands.json for clangd / VS Code",
-                "run from 'x64 Native Tools Command Prompt for VS' or ensure clang-cl is in PATH",
-                "to build, use the Visual Studio presets (windows-x64, windows-arm64)"
-            ],
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -69,13 +60,6 @@
             "hidden": true,
             "generator": "Ninja Multi-Config",
             "binaryDir": "${sourceDir}/build",
-            "$comment": [
-                "Base for Linux presets; Ninja is multi-config (Debug/Release/RelWithDebInfo in same build dir)",
-                "see https://cmake.org/cmake/help/latest/generator/Ninja%20Multi-Config.html",
-                "clangd uses compile_commands.json to provide code completion and navigation",
-                "so CMAKE_EXPORT_COMPILE_COMMANDS is set to ON",
-                "see https://clangd.llvm.org/installation.html"
-            ],
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             },
@@ -90,13 +74,6 @@
             "hidden": true,
             "generator": "Ninja Multi-Config",
             "binaryDir": "${sourceDir}/build",
-            "$comment": [
-                "Base for macOS presets; Ninja is multi-config (Debug/Release/RelWithDebInfo in same build dir)",
-                "see https://cmake.org/cmake/help/latest/generator/Ninja%20Multi-Config.html",
-                "clangd uses compile_commands.json to provide code completion and navigation",
-                "so CMAKE_EXPORT_COMPILE_COMMANDS is set to ON",
-                "see https://clangd.llvm.org/installation.html"
-            ],
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             },
@@ -160,10 +137,6 @@
         },
         {
             "name": "publish-base",
-            "$comment": [
-                "All the name contains 'publish' are used for github actions",
-                "see .github/workflows/ci.yml"
-            ],
             "hidden": true,
             "installDir": "install",
             "cacheVariables": {
@@ -231,10 +204,6 @@
         },
         {
             "name": "smoke-test",
-            "$comment": [
-                "this preset is used for smoke testing",
-                "see .github/workflows/smoke-testing.yml"
-            ],
             "inherits": "macos-arm64",
             "displayName": "macOS arm64 Smoke Test",
             "installDir": "install",
